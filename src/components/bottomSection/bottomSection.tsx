@@ -1,15 +1,30 @@
-import { Component } from 'react';
 import './bottomSection.css';
 
-class BottomSection extends Component {
-  render(): JSX.Element {
-    return (
-      <div className="bottom-section">
-        <h2>Bottom Section</h2>
-        {/* Ваш контент нижней секции */}
-      </div>
-    );
-  }
+interface Product {
+  id: number;
+  title: string;
+  description: string;
 }
+
+interface BottomSectionProps {
+  products: Product[];
+}
+
+const BottomSection: React.FC<BottomSectionProps> = ({ products }) => {
+  return (
+    <div className="bottom-section">
+      {products.length > 0 ? (
+        products.map((product) => (
+          <div key={product.id} className="product-item">
+            <h3>{product.title}</h3>
+            <p>{product.description}</p>
+          </div>
+        ))
+      ) : (
+        <p>No products to display.</p>
+      )}
+    </div>
+  );
+};
 
 export default BottomSection;

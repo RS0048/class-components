@@ -2,9 +2,27 @@ import { Component } from 'react';
 import './topSection.css';
 import SearchComponent from '../searchComponent/searchComponent';
 
-class TopSection extends Component {
+interface Product {
+  id: number;
+  title: string;
+  description: string;
+}
+
+interface TopSectionProps {
+  updateProducts: (products: Product[]) => void;
+}
+
+class TopSection extends Component<TopSectionProps> {
   handleSearch = (query: string): void => {
-    console.log('Обработка поискового запроса в TopSection:', query);
+    fetch(`https://dummyjson.com/products/search?q=${query}`)
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        this.props.updateProducts(data.products);
+      })
+      .catch((error) => {
+        console.error('Ошибка при поиске продуктов:', error);
+      });
   };
 
   render(): JSX.Element {

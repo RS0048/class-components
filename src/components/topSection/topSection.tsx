@@ -1,6 +1,7 @@
 import { Component } from 'react';
 import './topSection.css';
 import SearchComponent from '../searchComponent/searchComponent';
+import BugComponent from '../BugComponent/BugComponent';
 
 interface Product {
   id: number;
@@ -14,6 +15,7 @@ interface TopSectionProps {
 
 interface TopSectionState {
   isLoading: boolean;
+  showBugComponent: boolean;
 }
 
 class TopSection extends Component<TopSectionProps, TopSectionState> {
@@ -21,6 +23,7 @@ class TopSection extends Component<TopSectionProps, TopSectionState> {
     super(props);
     this.state = {
       isLoading: false,
+      showBugComponent: false,
     };
   }
   componentDidMount(): void {
@@ -42,11 +45,17 @@ class TopSection extends Component<TopSectionProps, TopSectionState> {
       });
   };
 
+  handleShowBugComponent = (): void => {
+    this.setState({ showBugComponent: true });
+  };
+
   render(): React.ReactNode {
     return (
       <div className="top-section">
         <SearchComponent onSearch={this.handleSearch} />
         {this.state.isLoading && <div className="loader">Loading...</div>}
+        <button onClick={this.handleShowBugComponent}>Go error</button>
+        {this.state.showBugComponent && <BugComponent />}
       </div>
     );
   }

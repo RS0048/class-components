@@ -12,20 +12,34 @@ interface TopSectionProps {
   updateProducts: (products: Product[]) => void;
 }
 
-class TopSection extends Component<TopSectionProps> {
+interface TopSectionState {
+  isLoading: boolean;
+}
+
+class TopSection extends Component<TopSectionProps, TopSectionState> {
+  constructor(props: TopSectionProps) {
+    super(props);
+    this.state = {
+      isLoading: false,
+    };
+  }
   componentDidMount(): void {
     const lastSearch = localStorage.getItem('lastSearch');
     if (lastSearch) this.handleSearch(lastSearch);
   }
   handleSearch = (query: string): void => {
+    this.setState({ isLoading: true });
     fetch(`https://dummyjson.com/products/search?q=${query}`)
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         this.props.updateProducts(data.products);
+        localStorage.setItem('lastSearch', query);
       })
       .catch((error) => {
         console.error('Ошибка при поиске продуктов:', error);
+      })
+      .finally(() => {
+        this.setState({ isLoading: false });
       });
   };
 
@@ -33,6 +47,7 @@ class TopSection extends Component<TopSectionProps> {
     return (
       <div className="top-section">
         <SearchComponent onSearch={this.handleSearch} />
+        {this.state.isLoading && <div className="loader">Loading...</div>}
       </div>
     );
   }

@@ -26,7 +26,6 @@ class SearchComponent extends Component<
 
   handleChange = (event: ChangeEvent<HTMLInputElement>): void => {
     this.setState({ query: event.target.value });
-    localStorage.setItem('lastSearch', event.target.value);
   };
 
   render(): React.ReactNode {

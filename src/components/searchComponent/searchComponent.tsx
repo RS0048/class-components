@@ -28,7 +28,7 @@ class SearchComponent extends Component<
     this.setState({ query: event.target.value });
   };
 
-  render(): JSX.Element {
+  render(): React.ReactNode {
     return (
       <form onSubmit={this.handleSubmit}>
         <input

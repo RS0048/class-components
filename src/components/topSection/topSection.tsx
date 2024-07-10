@@ -25,7 +25,7 @@ class TopSection extends Component<TopSectionProps> {
       });
   };
 
-  render(): JSX.Element {
+  render(): React.ReactNode {
     return (
       <div className="top-section">
         <SearchComponent onSearch={this.handleSearch} />

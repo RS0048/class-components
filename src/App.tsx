@@ -3,7 +3,7 @@ import './App.css';
 import HomePage from './components/homePage/homePage';
 
 class App extends Component {
-  render(): JSX.Element {
+  render(): React.ReactNode {
     return (
       <div className="app">
         <HomePage />

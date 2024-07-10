@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 import './homePage.css';
 import TopSection from '../topSection/topSection';
 import BottomSection from '../bottomSection/bottomSection';
@@ -26,7 +26,7 @@ class HomePage extends Component<HomePageProps, HomePageState> {
   updateProducts = (products: Product[]): void => {
     this.setState({ products });
   };
-  render(): JSX.Element {
+  render(): React.ReactNode {
     return (
       <div className="home-page">
         <TopSection updateProducts={this.updateProducts} />

@@ -22,6 +22,7 @@ class SearchComponent extends Component<
   handleSubmit = (event: FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
     this.props.onSearch(this.state.query);
+    localStorage.setItem('lastSearch', this.state.query);
   };
 
   handleChange = (event: ChangeEvent<HTMLInputElement>): void => {

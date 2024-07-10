@@ -24,8 +24,8 @@ class TopSection extends Component<TopSectionProps, TopSectionState> {
     };
   }
   componentDidMount(): void {
-    const lastSearch = localStorage.getItem('lastSearch');
-    if (lastSearch) this.handleSearch(lastSearch);
+    const lastSearch = localStorage.getItem('lastSearch') || '';
+    this.handleSearch(lastSearch);
   }
   handleSearch = (query: string): void => {
     this.setState({ isLoading: true });
@@ -33,7 +33,6 @@ class TopSection extends Component<TopSectionProps, TopSectionState> {
       .then((res) => res.json())
       .then((data) => {
         this.props.updateProducts(data.products);
-        localStorage.setItem('lastSearch', query);
       })
       .catch((error) => {
         console.error('Ошибка при поиске продуктов:', error);

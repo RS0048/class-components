@@ -13,6 +13,10 @@ interface TopSectionProps {
 }
 
 class TopSection extends Component<TopSectionProps> {
+  componentDidMount(): void {
+    const lastSearch = localStorage.getItem('lastSearch');
+    if (lastSearch) this.handleSearch(lastSearch);
+  }
   handleSearch = (query: string): void => {
     fetch(`https://dummyjson.com/products/search?q=${query}`)
       .then((res) => res.json())

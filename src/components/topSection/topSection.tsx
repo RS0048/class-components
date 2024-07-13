@@ -11,6 +11,7 @@ interface Product {
 
 interface TopSectionProps {
   updateProducts: (products: Product[]) => void;
+
 }
 
 const TopSection: React.FC<TopSectionProps> = ({ updateProducts }) => {

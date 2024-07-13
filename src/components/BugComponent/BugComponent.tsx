@@ -1,3 +1,4 @@
+
 import React, { useEffect } from 'react';
 
 const BugComponent: React.FC = () => {
@@ -7,5 +8,6 @@ const BugComponent: React.FC = () => {
 
   return <div>Text for error</div>;
 };
+
 
 export default BugComponent;

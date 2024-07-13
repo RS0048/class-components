@@ -1,4 +1,6 @@
+
 import React, { useState } from 'react';
+
 import './homePage.css';
 import TopSection from '../topSection/topSection';
 import BottomSection from '../bottomSection/bottomSection';

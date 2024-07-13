@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import './homePage.css';
 import TopSection from '../topSection/topSection';
 import BottomSection from '../bottomSection/bottomSection';
@@ -9,31 +9,21 @@ interface Product {
   description: string;
 }
 
-interface HomePageState {
-  products: Product[];
-}
-
 interface HomePageProps {}
 
-class HomePage extends Component<HomePageProps, HomePageState> {
-  constructor(props: HomePageProps) {
-    super(props);
-    this.state = {
-      products: [],
-    };
-  }
+const HomePage: React.FC<HomePageProps> = () => {
+  const [products, setProducts] = useState<Product[]>([]);
 
-  updateProducts = (products: Product[]): void => {
-    this.setState({ products });
+  const updateProducts = (newProducts: Product[]): void => {
+    setProducts(newProducts);
   };
-  render(): React.ReactNode {
-    return (
-      <div className="home-page">
-        <TopSection updateProducts={this.updateProducts} />
-        <BottomSection products={this.state.products} />
-      </div>
-    );
-  }
-}
+
+  return (
+    <div className="home-page">
+      <TopSection updateProducts={updateProducts} />
+      <BottomSection products={products} />
+    </div>
+  );
+};
 
 export default HomePage;

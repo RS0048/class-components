@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import { useEffect, useState } from 'react';
 import './topSection.css';
 import SearchComponent from '../searchComponent/searchComponent';
 import BugComponent from '../BugComponent/BugComponent';
@@ -13,52 +13,41 @@ interface TopSectionProps {
   updateProducts: (products: Product[]) => void;
 }
 
-interface TopSectionState {
-  isLoading: boolean;
-  showBugComponent: boolean;
-}
+const TopSection: React.FC<TopSectionProps> = ({ updateProducts }) => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [showBugComponent, setShowBugComponent] = useState<boolean>(false);
 
-class TopSection extends Component<TopSectionProps, TopSectionState> {
-  constructor(props: TopSectionProps) {
-    super(props);
-    this.state = {
-      isLoading: false,
-      showBugComponent: false,
-    };
-  }
-  componentDidMount(): void {
+  useEffect(() => {
     const lastSearch = localStorage.getItem('lastSearch') || '';
-    this.handleSearch(lastSearch);
-  }
-  handleSearch = (query: string): void => {
-    this.setState({ isLoading: true });
+    handleSearch(lastSearch);
+  }, []);
+
+  const handleSearch = (query: string): void => {
+    setIsLoading(true);
     fetch(`https://dummyjson.com/products/search?q=${query}`)
       .then((res) => res.json())
       .then((data) => {
-        this.props.updateProducts(data.products);
+        updateProducts(data.products);
       })
       .catch((error) => {
         console.error('Ошибка при поиске продуктов:', error);
       })
       .finally(() => {
-        this.setState({ isLoading: false });
+        setIsLoading(false);
       });
   };
 
-  handleShowBugComponent = (): void => {
-    this.setState({ showBugComponent: true });
+  const handleShowBugComponent = (): void => {
+    setShowBugComponent(true);
   };
 
-  render(): React.ReactNode {
-    return (
-      <div className="top-section">
-        <SearchComponent onSearch={this.handleSearch} />
-        {this.state.isLoading && <div className="loader">Loading...</div>}
-        <button onClick={this.handleShowBugComponent}>Go error</button>
-        {this.state.showBugComponent && <BugComponent />}
-      </div>
-    );
-  }
-}
-
+  return (
+    <div className="top-section">
+      <SearchComponent onSearch={handleSearch} />
+      {isLoading && <div className="loader">Loading...</div>}
+      <button onClick={handleShowBugComponent}>Go error</button>
+      {showBugComponent && <BugComponent />}
+    </div>
+  );
+};
 export default TopSection;

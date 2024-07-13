@@ -1,13 +1,16 @@
 import { Component } from 'react';
 import './App.css';
 import HomePage from './components/homePage/homePage';
+import ErrorBoundary from './components/errorBoundary/errorBoundary';
 
 class App extends Component {
-  render(): JSX.Element {
+  render(): React.ReactNode {
     return (
-      <div className="app">
-        <HomePage />
-      </div>
+      <ErrorBoundary>
+        <div className="app">
+          <HomePage />
+        </div>
+      </ErrorBoundary>
     );
   }
 }

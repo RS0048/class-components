@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { Outlet, useSearchParams } from 'react-router-dom';
 import './bottomSection.css';
 import Product from '../../interfaces/interfaces';
 import ItemDetails from '../itemDetails/itemDetails';
@@ -107,6 +107,7 @@ const BottomSection: React.FC<BottomSectionProps> = ({ products, search }) => {
           />
         </div>
       )}
+      <Outlet />
     </div>
   );
 };

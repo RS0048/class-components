@@ -11,6 +11,7 @@ interface Product {
 
 interface TopSectionProps {
   updateProducts: (products: Product[]) => void;
+
   updateSearch: (search: string) => void;
 }
 

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import './topSection.css';
 import SearchComponent from '../searchComponent/searchComponent';
 import BugComponent from '../BugComponent/BugComponent';
@@ -11,35 +11,43 @@ interface Product {
 
 interface TopSectionProps {
   updateProducts: (products: Product[]) => void;
+  updateSearch: (search: string) => void;
 }
 
-const TopSection: React.FC<TopSectionProps> = ({ updateProducts }) => {
+const TopSection: React.FC<TopSectionProps> = ({
+  updateProducts,
+  updateSearch,
+}) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [showBugComponent, setShowBugComponent] = useState<boolean>(false);
+
+  const handleSearch = useCallback(
+    (query: string): void => {
+      setIsLoading(true);
+      fetch(`https://dummyjson.com/products/search?q=${query}`)
+        .then((res) => res.json())
+        .then((data) => {
+          updateProducts(data.products);
+          updateSearch(query);
+        })
+        .catch((error) => {
+          console.error('Ошибка при поиске продуктов:', error);
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    },
+    [updateProducts, updateSearch],
+  );
+
+  const handleShowBugComponent = (): void => {
+    setShowBugComponent(true);
+  };
 
   useEffect(() => {
     const lastSearch = localStorage.getItem('lastSearch') || '';
     handleSearch(lastSearch);
   }, []);
-
-  const handleSearch = (query: string): void => {
-    setIsLoading(true);
-    fetch(`https://dummyjson.com/products/search?q=${query}`)
-      .then((res) => res.json())
-      .then((data) => {
-        updateProducts(data.products);
-      })
-      .catch((error) => {
-        console.error('Ошибка при поиске продуктов:', error);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-  };
-
-  const handleShowBugComponent = (): void => {
-    setShowBugComponent(true);
-  };
 
   return (
     <div className="top-section">

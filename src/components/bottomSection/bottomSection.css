@@ -1,6 +1,7 @@
 .bottom-section {
   background-color: #ccc;
-  padding: 40px;
+  height: 800px;
+  padding: 30px;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -15,6 +16,7 @@
 }
 
 .displayedProducts {
+  height: 500px;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -24,6 +26,7 @@
 
 .product-item {
   width: 15%;
+  height: 85%;
   padding: 20px;
   margin: 10px;
   border: 2px black solid;
@@ -37,7 +40,8 @@
 }
 
 .product-details-container {
-  width: 80%;
+  width: 70%;
+  height: 80%;
   border: 1px solid black;
   padding: 40px;
 }

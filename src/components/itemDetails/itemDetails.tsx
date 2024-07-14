@@ -12,6 +12,7 @@ const ItemDetails: React.FC<ItemDetailsProps> = ({
   onClose,
 }) => {
   const [product, setProduct] = useState<Product | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -24,6 +25,7 @@ const ItemDetails: React.FC<ItemDetailsProps> = ({
         }
         const data = await response.json();
         setProduct(data);
+        setLoading(false);
       } catch (error) {
         console.error('Ошибка при загрузке товара:', error);
       }
@@ -31,6 +33,10 @@ const ItemDetails: React.FC<ItemDetailsProps> = ({
 
     fetchProduct();
   }, [selectedProduct]);
+
+  if (loading) {
+    return <p>Loading...</p>;
+  }
 
   if (!product) {
     return null;
@@ -40,6 +46,7 @@ const ItemDetails: React.FC<ItemDetailsProps> = ({
     <div className="item-details">
       {product.images && product.images.length > 0 && (
         <img
+          data-testid="item-image"
           className="itemImage"
           src={product.images[0]}
           alt={product.title}
@@ -47,7 +54,7 @@ const ItemDetails: React.FC<ItemDetailsProps> = ({
       )}
       <h2>{product.title}</h2>
       <p>{product.description}</p>
-      <p>{product.price}</p>
+      <p>Price: {product.price}</p>
       <button onClick={onClose}>Close</button>
     </div>
   );

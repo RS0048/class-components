@@ -23,7 +23,6 @@ const TopSection: React.FC<TopSectionProps> = ({
       fetch(`https://dummyjson.com/products/search?q=${query}`)
         .then((res) => res.json())
         .then((data) => {
-          console.log(data);
           updateProducts(data.products);
           updateSearch(query);
         })
@@ -47,7 +46,7 @@ const TopSection: React.FC<TopSectionProps> = ({
   }, []);
 
   return (
-    <div className="top-section">
+    <div data-testid="top-section" className="top-section">
       <SearchComponent onSearch={handleSearch} />
       {isLoading && <div className="loader">Loading...</div>}
       <button onClick={handleShowBugComponent}>Go error</button>

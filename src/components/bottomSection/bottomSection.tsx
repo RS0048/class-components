@@ -7,12 +7,12 @@ interface BottomSectionProps {
   products: Product[];
   search: string;
 }
+export const itemOnPage = 4;
 
 const BottomSection: React.FC<BottomSectionProps> = ({ products, search }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const pageFromUrl = parseInt(searchParams.get('page') || '1', 10);
   const [page, setPage] = useState(pageFromUrl);
-  const itemOnPage = 4;
   const totalPages = Math.ceil(products.length / itemOnPage);
   const selectedProductId = searchParams.get('details');
 
@@ -68,7 +68,7 @@ const BottomSection: React.FC<BottomSectionProps> = ({ products, search }) => {
     null;
 
   return (
-    <div className="bottom-section">
+    <div data-testid="bottom-section" className="bottom-section">
       <div className="allCards" onClick={handleAllCardsClick}>
         <div className="displayedProducts">
           {displayedProducts.length > 0 ? (
@@ -83,7 +83,7 @@ const BottomSection: React.FC<BottomSectionProps> = ({ products, search }) => {
               </div>
             ))
           ) : (
-            <p>No products to display.</p>
+            <p className="messageWithoutCards">No products to display.</p>
           )}
         </div>
 

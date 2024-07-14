@@ -20,8 +20,16 @@ const HomePage: React.FC<HomePageProps> = () => {
 
   return (
     <div className={styles.homePage}>
-      <TopSection updateProducts={updateProducts} updateSearch={updateSearch} />
-      <BottomSection products={products} search={search} />
+      <TopSection
+        data-testid="top-section"
+        updateProducts={updateProducts}
+        updateSearch={updateSearch}
+      />
+      <BottomSection
+        data-testid="bottom-section"
+        products={products}
+        search={search}
+      />
     </div>
   );
 };

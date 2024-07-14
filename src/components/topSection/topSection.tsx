@@ -1,64 +1,57 @@
-import { Component } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import './topSection.css';
 import SearchComponent from '../searchComponent/searchComponent';
 import BugComponent from '../BugComponent/BugComponent';
-
-interface Product {
-  id: number;
-  title: string;
-  description: string;
-}
+import Product from '../../interfaces/interfaces';
 
 interface TopSectionProps {
   updateProducts: (products: Product[]) => void;
+
+  updateSearch: (search: string) => void;
 }
 
-interface TopSectionState {
-  isLoading: boolean;
-  showBugComponent: boolean;
-}
+const TopSection: React.FC<TopSectionProps> = ({
+  updateProducts,
+  updateSearch,
+}) => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [showBugComponent, setShowBugComponent] = useState<boolean>(false);
 
-class TopSection extends Component<TopSectionProps, TopSectionState> {
-  constructor(props: TopSectionProps) {
-    super(props);
-    this.state = {
-      isLoading: false,
-      showBugComponent: false,
-    };
-  }
-  componentDidMount(): void {
+  const handleSearch = useCallback(
+    (query: string): void => {
+      setIsLoading(true);
+      fetch(`https://dummyjson.com/products/search?q=${query}`)
+        .then((res) => res.json())
+        .then((data) => {
+          updateProducts(data.products);
+          updateSearch(query);
+        })
+        .catch((error) => {
+          console.error('Ошибка при поиске продуктов:', error);
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    },
+    [updateProducts, updateSearch],
+  );
+
+  const handleShowBugComponent = (): void => {
+    setShowBugComponent(true);
+  };
+
+  useEffect(() => {
     const lastSearch = localStorage.getItem('lastSearch') || '';
-    this.handleSearch(lastSearch);
-  }
-  handleSearch = (query: string): void => {
-    this.setState({ isLoading: true });
-    fetch(`https://dummyjson.com/products/search?q=${query}`)
-      .then((res) => res.json())
-      .then((data) => {
-        this.props.updateProducts(data.products);
-      })
-      .catch((error) => {
-        console.error('Ошибка при поиске продуктов:', error);
-      })
-      .finally(() => {
-        this.setState({ isLoading: false });
-      });
-  };
+    handleSearch(lastSearch);
+  }, []);
 
-  handleShowBugComponent = (): void => {
-    this.setState({ showBugComponent: true });
-  };
-
-  render(): React.ReactNode {
-    return (
-      <div className="top-section">
-        <SearchComponent onSearch={this.handleSearch} />
-        {this.state.isLoading && <div className="loader">Loading...</div>}
-        <button onClick={this.handleShowBugComponent}>Go error</button>
-        {this.state.showBugComponent && <BugComponent />}
-      </div>
-    );
-  }
-}
-
+  return (
+    <div data-testid="top-section" className="top-section">
+      <SearchComponent onSearch={handleSearch} />
+      {isLoading && <div className="loader">Loading...</div>}
+      <button onClick={handleShowBugComponent}>Go error</button>
+      {showBugComponent && <BugComponent />}
+    </div>
+  );
+};
 export default TopSection;

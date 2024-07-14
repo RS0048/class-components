@@ -2,12 +2,7 @@ import React, { useState } from 'react';
 import styles from './homePage.module.css';
 import TopSection from '../../components/topSection/topSection';
 import BottomSection from '../../components/bottomSection/bottomSection';
-
-interface Product {
-  id: number;
-  title: string;
-  description: string;
-}
+import Product from '../../interfaces/interfaces';
 
 interface HomePageProps {}
 

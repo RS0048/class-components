@@ -2,12 +2,7 @@ import { useEffect, useState, useCallback } from 'react';
 import './topSection.css';
 import SearchComponent from '../searchComponent/searchComponent';
 import BugComponent from '../BugComponent/BugComponent';
-
-interface Product {
-  id: number;
-  title: string;
-  description: string;
-}
+import Product from '../../interfaces/interfaces';
 
 interface TopSectionProps {
   updateProducts: (products: Product[]) => void;
@@ -28,6 +23,7 @@ const TopSection: React.FC<TopSectionProps> = ({
       fetch(`https://dummyjson.com/products/search?q=${query}`)
         .then((res) => res.json())
         .then((data) => {
+          console.log(data);
           updateProducts(data.products);
           updateSearch(query);
         })

@@ -2,15 +2,42 @@
   background-color: #ccc;
   padding: 40px;
   display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.allCards {
+  display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
 }
 
+.displayedProducts {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+}
+
 .product-item {
   width: 15%;
-  height: 15%;
   padding: 20px;
   margin: 10px;
   border: 2px black solid;
+  overflow: auto;
+}
+
+.pagination-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.product-details-container {
+  width: 80%;
+  border: 1px solid black;
+  padding: 40px;
 }

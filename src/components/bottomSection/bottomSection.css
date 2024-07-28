@@ -9,6 +9,10 @@
   justify-content: center;
 }
 
+.dark-theme .bottom-section {
+  background-color: rgb(46, 31, 61);
+}
+
 .allCards {
   display: flex;
   flex-direction: column;

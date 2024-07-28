@@ -5,12 +5,15 @@ import { Provider } from 'react-redux';
 import store from './store.ts';
 import App from './App.tsx';
 import './index.css';
+import { ThemeProvider } from './themeContext.tsx';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <Provider store={store}>
     <React.StrictMode>
       <BrowserRouter>
-        <App />
+        <ThemeProvider>
+          <App />
+        </ThemeProvider>
       </BrowserRouter>
     </React.StrictMode>
   </Provider>,

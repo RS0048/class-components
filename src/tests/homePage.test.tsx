@@ -4,14 +4,17 @@ import '@testing-library/jest-dom';
 import HomePage from '../pages/homePage/homePage';
 import { Provider } from 'react-redux';
 import store from '../store';
+import { ThemeProvider } from '../themeContext';
 
 describe('homePage', () => {
   it('check renders TopSection and BottomSection', () => {
     render(
       <Provider store={store}>
-        <Router>
-          <HomePage />
-        </Router>
+        <ThemeProvider>
+          <Router>
+            <HomePage />
+          </Router>
+        </ThemeProvider>
       </Provider>,
     );
 

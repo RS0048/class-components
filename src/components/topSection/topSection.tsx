@@ -4,6 +4,7 @@ import SearchComponent from '../searchComponent/searchComponent';
 import BugComponent from '../BugComponent/BugComponent';
 import Product from '../../interfaces/interfaces';
 import productsApi from '../../api/productsApi';
+import ThemeToggleButton from '../themeToggle/themeToggle';
 
 interface TopSectionProps {
   updateProducts: (products: Product[]) => void;
@@ -50,6 +51,7 @@ const TopSection: React.FC<TopSectionProps> = ({
       {isLoading && <div className="loader">Loading...</div>}
       <button onClick={handleShowBugComponent}>Go error</button>
       {showBugComponent && <BugComponent />}
+      <ThemeToggleButton />
     </div>
   );
 };

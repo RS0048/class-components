@@ -3,3 +3,26 @@ button,
 input {
   margin: 20px;
 }
+
+button {
+  cursor: pointer;
+  padding: 5px;
+}
+
+.dark-theme button {
+  background-color: rgb(52, 78, 52);
+  color: rgb(245, 242, 242);
+}
+
+body.dark-theme {
+  background-color: rgb(23, 33, 46);
+  color: rgb(245, 242, 242);
+}
+
+.dark-theme input {
+  background-color: rgb(131, 99, 168);
+}
+
+.dark-theme input::placeholder {
+  color: rgb(26, 26, 26);
+}

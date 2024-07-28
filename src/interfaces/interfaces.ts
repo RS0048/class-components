@@ -7,5 +7,5 @@ export default interface Product {
   title: string;
   description: string;
   price: string;
-  images: string[];
+  images?: string[];
 }

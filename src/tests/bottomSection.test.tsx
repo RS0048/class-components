@@ -4,6 +4,8 @@ import Product from '../interfaces/interfaces';
 import '@testing-library/jest-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { itemOnPage } from '../components/bottomSection/bottomSection';
+import { Provider } from 'react-redux';
+import store from '../store';
 
 const products: Product[] = [
   {
@@ -50,9 +52,11 @@ const search = '';
 describe('BottomSection', () => {
   it('check correctly renders products', () => {
     render(
-      <Router>
-        <BottomSection products={products} search={search} />
-      </Router>,
+      <Provider store={store}>
+        <Router>
+          <BottomSection products={products} search={search} />
+        </Router>
+      </Provider>,
     );
 
     products.slice(0, 4).forEach((product) => {
@@ -62,9 +66,11 @@ describe('BottomSection', () => {
 
   it('check correct number of product cards', () => {
     render(
-      <Router>
-        <BottomSection products={products} search={search} />
-      </Router>,
+      <Provider store={store}>
+        <Router>
+          <BottomSection products={products} search={search} />
+        </Router>
+      </Provider>,
     );
 
     const productCards = document.getElementsByClassName('product-item');
@@ -73,9 +79,11 @@ describe('BottomSection', () => {
 
   it('check message without cards', () => {
     render(
-      <Router>
-        <BottomSection products={nullProducts} search={search} />
-      </Router>,
+      <Provider store={store}>
+        <Router>
+          <BottomSection products={nullProducts} search={search} />
+        </Router>
+      </Provider>,
     );
 
     const messageElement = screen.getByText('No products to display.');
@@ -85,9 +93,11 @@ describe('BottomSection', () => {
 
   it('check click correctly to card ', () => {
     render(
-      <Router>
-        <BottomSection products={products} search={search} />
-      </Router>,
+      <Provider store={store}>
+        <Router>
+          <BottomSection products={products} search={search} />
+        </Router>
+      </Provider>,
     );
 
     const firstProduct = products[0];
@@ -106,9 +116,11 @@ describe('BottomSection', () => {
 
   it('check pagination', async () => {
     render(
-      <Router>
-        <BottomSection products={products} search={search} />
-      </Router>,
+      <Provider store={store}>
+        <Router>
+          <BottomSection products={products} search={search} />
+        </Router>
+      </Provider>,
     );
 
     const nextButton = screen.getByText('Next');

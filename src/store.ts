@@ -19,7 +19,7 @@ const store = configureStore({
 export type RootState = {
   selectedProducts: SelectedProductsState;
   products: ProductsState;
-  [productsApi.reducerPath]: ReturnType<typeof productsApi.reducer>;
+  [productsApi.reducerPath]?: ReturnType<typeof productsApi.reducer>;
 };
 
 export default store;

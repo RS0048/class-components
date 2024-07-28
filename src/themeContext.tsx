@@ -10,7 +10,10 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 export const ThemeProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [isDarkTheme, setIsDarkTheme] = useState(false);
+  const [isDarkTheme, setIsDarkTheme] = useState<boolean>(() => {
+    const savedTheme = localStorage.getItem('isDarkTheme');
+    return savedTheme === 'true';
+  });
 
   const toggleTheme = () => {
     setIsDarkTheme((prev) => !prev);

@@ -1,41 +1,30 @@
-import React, { useEffect, useState } from 'react';
-import Product from '../../interfaces/interfaces';
 import './itemDetails.css';
+import productsApi from '../../api/productsApi';
 
 interface ItemDetailsProps {
   selectedProduct: number;
   onClose: () => void;
 }
 
+const { useGetProductByIdQuery } = productsApi;
+
 const ItemDetails: React.FC<ItemDetailsProps> = ({
   selectedProduct,
   onClose,
 }) => {
-  const [product, setProduct] = useState<Product | null>(null);
-  const [loading, setLoading] = useState(true);
+  const {
+    data: product,
+    error,
+    isLoading,
+  } = useGetProductByIdQuery(selectedProduct);
 
-  useEffect(() => {
-    const fetchProduct = async () => {
-      try {
-        const response = await fetch(
-          `https://dummyjson.com/products/${selectedProduct}`,
-        );
-        if (!response.ok) {
-          throw new Error('Failed to fetch product');
-        }
-        const data = await response.json();
-        setProduct(data);
-        setLoading(false);
-      } catch (error) {
-        console.error('Ошибка при загрузке товара:', error);
-      }
-    };
-
-    fetchProduct();
-  }, [selectedProduct]);
-
-  if (loading) {
+  if (isLoading) {
     return <p>Loading...</p>;
+  }
+
+  if (error) {
+    console.error('Ошибка при загрузке товара:', error);
+    return <p>Ошибка при загрузке товара.</p>;
   }
 
   if (!product) {
@@ -44,6 +33,7 @@ const ItemDetails: React.FC<ItemDetailsProps> = ({
 
   return (
     <div className="item-details">
+      {isLoading && <div className="loader">Loading...</div>}
       {product.images && product.images.length > 0 && (
         <img
           data-testid="item-image"

@@ -1,0 +1,21 @@
+.popupCounter {
+  width: 200px;
+  position: absolute;
+  bottom: -4%;
+  right: 41%;
+  background-color: #373636;
+  color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  z-index: 10;
+}
+
+.popupContent {
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+}
+
+.popupContent button {
+  margin: 10px;
+}

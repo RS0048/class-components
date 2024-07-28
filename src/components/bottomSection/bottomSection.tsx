@@ -1,8 +1,12 @@
 import { useEffect, useState, useCallback } from 'react';
 import { Outlet, useSearchParams } from 'react-router-dom';
 import './bottomSection.css';
+import { useDispatch, useSelector } from 'react-redux';
 import Product from '../../interfaces/interfaces';
 import ItemDetails from '../itemDetails/itemDetails';
+import { RootState } from '../../store';
+import { toggleSelectProduct } from '../../slices/selectedProductsSlice';
+import PopupCounter from '../popupCounter/popupCounter';
 interface BottomSectionProps {
   products: Product[];
   search: string;
@@ -10,6 +14,10 @@ interface BottomSectionProps {
 export const itemOnPage = 4;
 
 const BottomSection: React.FC<BottomSectionProps> = ({ products, search }) => {
+  const dispatch = useDispatch();
+  const selectedProductIds = useSelector(
+    (state: RootState) => state.selectedProducts.selectedProductIds,
+  );
   const [searchParams, setSearchParams] = useSearchParams();
   const pageFromUrl = parseInt(searchParams.get('page') || '1', 10);
   const [page, setPage] = useState(pageFromUrl);
@@ -54,6 +62,10 @@ const BottomSection: React.FC<BottomSectionProps> = ({ products, search }) => {
     }
   };
 
+  const handleToggleSelect = (productId: number) => {
+    dispatch(toggleSelectProduct(productId));
+  };
+
   useEffect(() => {
     updatePageInUrl(page, search);
   }, [page, search, updatePageInUrl, selectedProductId]);
@@ -80,6 +92,16 @@ const BottomSection: React.FC<BottomSectionProps> = ({ products, search }) => {
               >
                 <h3>{product.title}</h3>
                 <p>{product.description}</p>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleToggleSelect(product.id);
+                  }}
+                >
+                  {selectedProductIds.includes(product.id)
+                    ? 'Deselect'
+                    : 'Select'}
+                </button>
               </div>
             ))
           ) : (
@@ -97,6 +119,9 @@ const BottomSection: React.FC<BottomSectionProps> = ({ products, search }) => {
           <button onClick={handleNext} disabled={page === totalPages}>
             Next
           </button>
+        </div>
+        <div className="popupElement">
+          <PopupCounter />
         </div>
       </div>
       {selectedProduct && (

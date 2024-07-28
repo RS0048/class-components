@@ -3,6 +3,7 @@ import './topSection.css';
 import SearchComponent from '../searchComponent/searchComponent';
 import BugComponent from '../BugComponent/BugComponent';
 import Product from '../../interfaces/interfaces';
+import productsApi from '../../api/productsApi';
 
 interface TopSectionProps {
   updateProducts: (products: Product[]) => void;
@@ -10,31 +11,29 @@ interface TopSectionProps {
   updateSearch: (search: string) => void;
 }
 
+const { useSearchProductsQuery } = productsApi;
+
 const TopSection: React.FC<TopSectionProps> = ({
   updateProducts,
   updateSearch,
 }) => {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [showBugComponent, setShowBugComponent] = useState<boolean>(false);
-
-  const handleSearch = useCallback(
-    (query: string): void => {
-      setIsLoading(true);
-      fetch(`https://dummyjson.com/products/search?q=${query}`)
-        .then((res) => res.json())
-        .then((data) => {
-          updateProducts(data.products);
-          updateSearch(query);
-        })
-        .catch((error) => {
-          console.error('Ошибка при поиске продуктов:', error);
-        })
-        .finally(() => {
-          setIsLoading(false);
-        });
-    },
-    [updateProducts, updateSearch],
+  const [searchQuery, setSearchQuery] = useState<string>(
+    localStorage.getItem('lastSearch') || '',
   );
+  const { data, isLoading } = useSearchProductsQuery(searchQuery);
+
+  useEffect(() => {
+    if (data) {
+      updateProducts(data.products);
+      updateSearch(searchQuery);
+    }
+  }, [data, updateProducts, updateSearch, searchQuery]);
+
+  const handleSearch = useCallback((query: string) => {
+    setSearchQuery(query);
+    localStorage.setItem('lastSearch', query);
+  }, []);
 
   const handleShowBugComponent = (): void => {
     setShowBugComponent(true);

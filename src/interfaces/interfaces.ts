@@ -1,3 +1,7 @@
+export interface ProductsApiResponse {
+  products: Product[];
+}
+
 export default interface Product {
   id: number;
   title: string;

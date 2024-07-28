@@ -8,22 +8,21 @@ type CSVField = 'id' | 'title' | 'description' | 'price';
 
 const fields: CSVField[] = ['id', 'title', 'description', 'price'];
 
+const selectProductItems = (state: RootState) => state.products.items;
+
 const selectAllProducts = createSelector(
-  (state: RootState) => state.products.items,
-  (products) => products,
+  [
+    selectProductItems,
+    (state: RootState) => state.selectedProducts.selectedProductIds,
+  ],
+  (products, selectedProductIds) =>
+    products.filter((product) => selectedProductIds.includes(product.id)),
 );
 
 const DownloadButton: React.FC = () => {
-  const selectedProductIds = useSelector(
-    (state: RootState) => state.selectedProducts.selectedProductIds,
-  );
+  const products = useSelector(selectAllProducts);
 
-  const products = useSelector(
-    (state: RootState) =>
-      selectAllProducts(state).filter((product) =>
-        selectedProductIds.includes(product.id),
-      ) || [],
-  );
+  const countItem = products.length;
 
   const convertToCSV = (data: Product[], fields: CSVField[]) => {
     if (!data.length) return '';
@@ -48,10 +47,10 @@ const DownloadButton: React.FC = () => {
     const blob = new Blob([csvData], { type: 'text/csv' });
     const url = URL.createObjectURL(blob);
 
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'products.csv';
-    a.click();
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `${countItem}_products.csv`;
+    link.click();
 
     URL.revokeObjectURL(url);
   };

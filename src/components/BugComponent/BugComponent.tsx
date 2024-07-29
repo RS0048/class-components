@@ -1,14 +1,11 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 
-class BugComponent extends Component {
-  componentDidMount(): void {
-    console.log('test');
+const BugComponent: React.FC = () => {
+  useEffect(() => {
     throw new Error('Error caramba!');
-  }
+  }, []);
 
-  render(): React.ReactNode {
-    return <div>Text for error</div>;
-  }
-}
+  return <div>Text for error</div>;
+};
 
 export default BugComponent;

@@ -1,16 +1,53 @@
 .bottom-section {
+  position: relative;
   background-color: #ccc;
-  padding: 40px;
+  height: 800px;
+  padding: 30px;
   display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.dark-theme .bottom-section {
+  background-color: rgb(46, 31, 61);
+}
+
+.allCards {
+  display: flex;
+  flex-direction: column;
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
 }
 
+.displayedProducts {
+  height: 500px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+}
+
 .product-item {
   width: 15%;
-  height: 15%;
+  height: 85%;
   padding: 20px;
   margin: 10px;
   border: 2px black solid;
+  overflow: auto;
+}
+
+.pagination-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.product-details-container {
+  width: 70%;
+  height: 80%;
+  border: 1px solid black;
+  padding: 40px;
 }
